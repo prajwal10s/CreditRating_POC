@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Mortgages from "./Components/Mortgages";
+import Mortgages from "./Components/MortgageRecords/Mortgages";
 
 function App() {
   return (

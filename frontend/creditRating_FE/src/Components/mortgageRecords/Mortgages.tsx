@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Mortgages: React.FC = () => {
   return (
     <div className="MortgageRecord">
