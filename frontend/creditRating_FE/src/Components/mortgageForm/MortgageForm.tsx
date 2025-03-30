@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Mortgage } from "../../types/MortgageDataType";
 import axios from "axios";
 import Header from "../header/Header";
@@ -52,7 +52,9 @@ const MortgageForm: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    //need the validation while changing values as well
 
+    //needed different login as validate will give error on all fields at once instead of active fields
     let errorMessage = "";
     if (
       name === "creditScore" &&
@@ -78,7 +80,7 @@ const MortgageForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return; // Stop submission if validation fails
+    if (!validate()) return; // Stop the submission if validation fails
     try {
       const res = await axios.post("/api/mortgages", formData);
       setMortgages([...mortgages, res.data]);

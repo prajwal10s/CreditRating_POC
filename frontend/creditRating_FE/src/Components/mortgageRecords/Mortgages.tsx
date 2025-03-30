@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import MortgageCard from "./MortgageCard";
 import Header from "../header/Header";
 import { MortgageCredit } from "../../types/MortgageAndCredit";
+axios.defaults.baseURL = "http://localhost:8000";
 
 const Mortgages: React.FC = () => {
   const [mortgages, setMortgages] = useState<MortgageCredit[]>([]);
   useEffect(() => {
-    axios.get("/api/mortgages").then((res) => setMortgages(res.data));
-  });
+    axios
+      .get("/api/mortgages")
+      .then((res) => setMortgages(res.data))
+      .catch((err) => console.error("Error fetching mortgages:", err));
+  }, []);
   return (
     <div className="flex flex-col min-h-screen">
       <Header />

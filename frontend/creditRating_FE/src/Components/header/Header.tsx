@@ -6,7 +6,7 @@ const Header: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="bg-gray-900 text-white shadow-md rounded-lg">
+    <header className="bg-gray-900 text-white shadow-md">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center ">
         <Link to="/" className="text-2xl font-bold tracking-wide ">
           Credit Rating Calculator

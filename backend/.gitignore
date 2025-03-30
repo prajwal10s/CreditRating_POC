@@ -1,0 +1,49 @@
+# Byte-compiled / compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+*.egg-info/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Environment variables
+.env
+*.env
+
+# Logs and cache
+*.log
+logs/
+debug.log
+.DS_Store
+*.sqlite3
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# MySQL data dumps (if any)
+*.sql
+
+# Alembic migration cache
+migrations/versions/*.pyc
+migrations/versions/*.pyc.*
+migrations/versions/*.pyo
+migrations/versions/__pycache__/
+
+# Jupyter notebooks (if any)
+.ipynb_checkpoints/
+
+# Docker
+docker-compose.override.yml
+
+# Uvicorn logs
+*.log
+uvicorn.log
