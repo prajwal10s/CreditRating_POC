@@ -1,4 +1,5 @@
 export interface MortgageCredit {
+  id: string;
   creditScore: number;
   loanAmount: number;
   propertyValue: number;

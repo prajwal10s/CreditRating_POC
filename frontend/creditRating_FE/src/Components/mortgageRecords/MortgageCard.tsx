@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MoreVertical } from "lucide-react";
 import { MortgageCredit } from "../../types/MortgageAndCredit";
+import axios from "axios";
 
 const MortgageCard: React.FC<{ recordData: MortgageCredit }> = ({
   recordData,
@@ -9,6 +10,27 @@ const MortgageCard: React.FC<{ recordData: MortgageCredit }> = ({
   const [showOptions, setShowOptions] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const handleReload = () => {
+    navigate("/");
+    window.location.reload(); // Force full reload
+  };
+  const handleEdit = () => {
+    navigate("/add", {
+      state: {
+        record: { recordId: recordData.id, ...recordData },
+        isEditData: true,
+      },
+    });
+  };
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(`/api/mortgages/${recordData.id}`);
+      if (res.status == 200) handleReload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="relative bg-orange-100 shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
       {/* Options Button for edit and delete*/}
@@ -23,11 +45,17 @@ const MortgageCard: React.FC<{ recordData: MortgageCredit }> = ({
         {/* Options Dropdown */}
         {showOptions && (
           <div className="absolute top-full right-0 mt-1 w-40 bg-white/90 shadow-md rounded-md text-sm border border-gray-300 z-20">
-            <button className="block px-4 py-2 w-full text-left text-red-600 hover:bg-red-100">
-              🗑️ Delete
-            </button>
-            <button className="block px-4 py-2 w-full text-left text-blue-700 hover:bg-blue-100">
+            <button
+              className="block px-4 py-2 w-full text-left text-blue-700 hover:bg-blue-100"
+              onClick={() => handleEdit()}
+            >
               ✏️ Edit
+            </button>
+            <button
+              className="block px-4 py-2 w-full text-left text-red-600 hover:bg-red-100"
+              onClick={() => handleDelete()}
+            >
+              🗑️ Delete
             </button>
           </div>
         )}
@@ -36,7 +64,7 @@ const MortgageCard: React.FC<{ recordData: MortgageCredit }> = ({
       {/* Form to retrieve data */}
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-800">
-          CreditRating: {recordData.creditRating.toUpperCase()}
+          Credit Rating: {recordData.creditRating.toUpperCase()}
         </h3>
 
         {/* Tags */}

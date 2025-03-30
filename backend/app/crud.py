@@ -12,3 +12,20 @@ def calculate_rating(db: Session, mortgage: schemas.MortgageCreate):
 
 def get_mortgages(db: Session):
     return db.query(models.Mortgage).all()
+
+def get_mortgage_by_id(db: Session, mortgage_id: str):
+    return db.query(models.Mortgage).filter(models.Mortgage.id == mortgage_id).first()
+
+def update_mortgage(db: Session, mortgage_id: str, mortgage_update: schemas.MortgageBase):
+    mortgage = get_mortgage_by_id(db, mortgage_id)
+    if not mortgage:
+        return None
+
+    for key, value in mortgage_update.dict(exclude_unset=True).items():
+        setattr(mortgage, key, value)
+
+    db.commit()
+    db.refresh(mortgage)
+    return mortgage
+
+    

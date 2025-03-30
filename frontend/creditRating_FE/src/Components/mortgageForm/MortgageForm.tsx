@@ -2,11 +2,19 @@ import { useState } from "react";
 import { Mortgage } from "../../types/MortgageDataType";
 import axios from "axios";
 import Header from "../header/Header";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MortgageForm: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<Mortgage>({
+  const location = useLocation();
+
+  const recordData = location.state?.record || null;
+  const recordId = recordData?.recordId || null;
+
+  const filteredData =
+    recordData && Object.keys(recordData).length > 0 ? { ...recordData } : null;
+
+  const recordInfo: Mortgage = filteredData || {
     creditScore: 0,
     loanAmount: 0,
     propertyValue: 0,
@@ -14,7 +22,14 @@ const MortgageForm: React.FC = () => {
     debtAmount: 0,
     loanType: "fixed",
     propertyType: "single_family",
-  });
+  };
+  const isEditData: boolean = location.state?.isEditData || false;
+  const setId = recordId || "";
+  const [presetId, setPresetId] = useState<string>(setId);
+  const [isEdit, setIsEdit] = useState<boolean>(isEditData);
+
+  const [formData, setFormData] = useState<Mortgage>(recordInfo);
+
   interface formErrors {
     creditScore?: string;
     loanAmount?: string;
@@ -81,9 +96,14 @@ const MortgageForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!validate()) return; // Stop the submission if validation fails
     try {
-      const res = await axios.post("/api/mortgages", formData);
+      if (isEdit) {
+        const res = await axios.put(`/api/mortgages/${presetId}`, formData);
+      } else {
+        const res = await axios.post("/api/mortgages", formData);
+      }
       navigate("/");
     } catch (error) {
       console.error("Error submitting mortgage", error);
@@ -106,6 +126,7 @@ const MortgageForm: React.FC = () => {
                 <input
                   type="number"
                   name="creditScore"
+                  value={formData.creditScore}
                   placeholder="Enter Credit Score"
                   className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
@@ -121,6 +142,7 @@ const MortgageForm: React.FC = () => {
                 <input
                   type="number"
                   name="loanAmount"
+                  value={formData.loanAmount}
                   placeholder="Enter Loan Amount"
                   className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
@@ -136,6 +158,7 @@ const MortgageForm: React.FC = () => {
                 <input
                   type="number"
                   name="propertyValue"
+                  value={formData.propertyValue}
                   placeholder="Enter Property Value"
                   className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
@@ -151,6 +174,7 @@ const MortgageForm: React.FC = () => {
                 <input
                   type="number"
                   name="annualIncome"
+                  value={formData.annualIncome}
                   placeholder="Enter Annual Income"
                   className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
@@ -166,6 +190,7 @@ const MortgageForm: React.FC = () => {
                 <input
                   type="number"
                   name="debtAmount"
+                  value={formData.debtAmount}
                   placeholder="Enter Debt Amount"
                   className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
@@ -183,6 +208,7 @@ const MortgageForm: React.FC = () => {
                 <label className="block text-sm mb-1">Loan Type</label>
                 <select
                   name="loanType"
+                  value={formData.loanType}
                   className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
                 >
@@ -195,6 +221,7 @@ const MortgageForm: React.FC = () => {
                 <label className="block text-sm mb-1">Property Type</label>
                 <select
                   name="propertyType"
+                  value={formData.propertyType}
                   className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
                 >
