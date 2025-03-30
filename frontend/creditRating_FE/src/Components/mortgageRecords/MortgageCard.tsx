@@ -7,17 +7,16 @@ const MortgageCard: React.FC<{ recordData: MortgageCredit }> = ({
   recordData,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   return (
     <div className="relative bg-orange-100 shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
-      {/* Options Button */}
+      {/* Options Button for edit and delete*/}
       <div className="absolute top-3 right-3" ref={optionsRef}>
         <button onClick={() => setShowOptions(!showOptions)} className="p-2">
           <MoreVertical
             size={25}
-            className="text-white font-extrabold hover:text-gray-400"
+            className="text-black font-extrabold hover:text-gray-600"
           />
         </button>
 
@@ -34,31 +33,38 @@ const MortgageCard: React.FC<{ recordData: MortgageCredit }> = ({
         )}
       </div>
 
-      {/* Form content */}
+      {/* Form to retrieve data */}
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-800">
-          {recordData.creditRating.toUpperCase()} RECIPE
+          CreditRating: {recordData.creditRating.toUpperCase()}
         </h3>
 
         {/* Tags */}
-        <div className="flex flex-wrap mt-3">
-          <span className="bg-blue-200 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2">
-            creditScore
+        {/* Tags */}
+        <div className="grid grid-cols-2 gap-4 mt-3">
+          <span className="bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+            Credit Score: {recordData.creditScore}
           </span>
-
-          <span className="px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2 text-yellow-800">
-            {recordData.creditScore}
+          <span className="bg-slate-300 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">
+            Loan Amount: {recordData.loanAmount}
           </span>
-          <span className="bg-slate-300 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2">
-            {recordData.loanAmount} roast
+          <span className="bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+            Property Type: {recordData.propertyValue}
           </span>
-          <span className="bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2">
-            {recordData.loanAmount}
+          <span className="bg-slate-300 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">
+            Annual Income: {recordData.annualIncome}
+          </span>
+          <span className="bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+            Debt Amount: {recordData.debtAmount}
+          </span>
+          <span className="bg-slate-300 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">
+            Loan Type: {recordData.loanType}
+          </span>
+          <span className="bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+            Property Type: {recordData.propertyType}
           </span>
         </div>
       </div>
-
-      {/* Pop-Up Overlay for Recipe Steps */}
     </div>
   );
 };

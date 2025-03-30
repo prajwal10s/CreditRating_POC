@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Mortgage } from "../../types/MortgageDataType";
 import axios from "axios";
 import Header from "../header/Header";
+import { useNavigate } from "react-router-dom";
 
 const MortgageForm: React.FC = () => {
-  const [mortgages, setMortgages] = useState<Mortgage[]>([]);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<Mortgage>({
     creditScore: 0,
     loanAmount: 0,
@@ -83,7 +84,7 @@ const MortgageForm: React.FC = () => {
     if (!validate()) return; // Stop the submission if validation fails
     try {
       const res = await axios.post("/api/mortgages", formData);
-      setMortgages([...mortgages, res.data]);
+      navigate("/");
     } catch (error) {
       console.error("Error submitting mortgage", error);
     }
