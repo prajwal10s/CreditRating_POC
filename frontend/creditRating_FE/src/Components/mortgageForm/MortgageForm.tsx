@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Mortgage } from "../../types/MortgageDataType";
+import axios from "axios";
+import Header from "../header/Header";
 
 const MortgageForm: React.FC = () => {
   const [mortgages, setMortgages] = useState<Mortgage[]>([]);
@@ -86,125 +88,128 @@ const MortgageForm: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-gray-800 via-gray-700 to-gray-600 text-white p-6">
-      <div className="w-full max-w-lg bg-gray-900 p-8 rounded-lg shadow-xl">
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Calculate Credit Rating
-        </h1>
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 via-gray-700 to-gray-600 text-white ">
+      <Header />
+      <div className="flex flex-col items-center justify-center mx-12 my-12">
+        <div className=" w-full max-w-lg bg-gray-900 p-8 rounded-lg shadow-xl">
+          <h1 className="text-2xl font-bold mb-6 text-center">
+            Calculate Credit Rating
+          </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm mb-1">Credit Score</label>
-              <input
-                type="number"
-                name="creditScore"
-                placeholder="Enter Credit Score"
-                className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={handleChange}
-              />
-              {errors["creditScore"] && (
-                <p className="text-red-400 text-xs mt-1">
-                  {errors["creditScore"]}
-                </p>
-              )}
-            </div>
-            <div>
-              <label className="block text-sm mb-1">Loan Amount</label>
-              <input
-                type="number"
-                name="loanAmount"
-                placeholder="Enter Loan Amount"
-                className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={handleChange}
-              />
-              {errors["loanAmount"] && (
-                <p className="text-red-400 text-xs mt-1">
-                  {errors["loanAmount"]}
-                </p>
-              )}
-            </div>
-            <div>
-              <label className="block text-sm mb-1">Property Value</label>
-              <input
-                type="number"
-                name="propertyValue"
-                placeholder="Enter Property Value"
-                className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={handleChange}
-              />
-              {errors["propertyValue"] && (
-                <p className="text-red-400 text-xs mt-1">
-                  {errors["propertyValue"]}
-                </p>
-              )}
-            </div>
-            <div>
-              <label className="block text-sm mb-1">Annual Income</label>
-              <input
-                type="number"
-                name="annualIncome"
-                placeholder="Enter Annual Income"
-                className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={handleChange}
-              />
-              {errors["annualIncome"] && (
-                <p className="text-red-400 text-xs mt-1">
-                  {errors["annualIncome"]}
-                </p>
-              )}
-            </div>
-            <div>
-              <label className="block text-sm mb-1">Debt Amount</label>
-              <input
-                type="number"
-                name="debtAmount"
-                placeholder="Enter Debt Amount"
-                className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={handleChange}
-              />
-              {errors["debtAmount"] && (
-                <p className="text-red-400 text-xs mt-1">
-                  {errors["debtAmount"]}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm mb-1">Loan Type</label>
-              <select
-                name="loanType"
-                className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={handleChange}
-              >
-                <option value="fixed">Fixed</option>
-                <option value="adjustable">Adjustable</option>
-              </select>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm mb-1">Credit Score</label>
+                <input
+                  type="number"
+                  name="creditScore"
+                  placeholder="Enter Credit Score"
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange}
+                />
+                {errors["creditScore"] && (
+                  <p className="text-red-400 text-xs mt-1">
+                    {errors["creditScore"]}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm mb-1">Loan Amount</label>
+                <input
+                  type="number"
+                  name="loanAmount"
+                  placeholder="Enter Loan Amount"
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange}
+                />
+                {errors["loanAmount"] && (
+                  <p className="text-red-400 text-xs mt-1">
+                    {errors["loanAmount"]}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm mb-1">Property Value</label>
+                <input
+                  type="number"
+                  name="propertyValue"
+                  placeholder="Enter Property Value"
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange}
+                />
+                {errors["propertyValue"] && (
+                  <p className="text-red-400 text-xs mt-1">
+                    {errors["propertyValue"]}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm mb-1">Annual Income</label>
+                <input
+                  type="number"
+                  name="annualIncome"
+                  placeholder="Enter Annual Income"
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange}
+                />
+                {errors["annualIncome"] && (
+                  <p className="text-red-400 text-xs mt-1">
+                    {errors["annualIncome"]}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm mb-1">Debt Amount</label>
+                <input
+                  type="number"
+                  name="debtAmount"
+                  placeholder="Enter Debt Amount"
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange}
+                />
+                {errors["debtAmount"] && (
+                  <p className="text-red-400 text-xs mt-1">
+                    {errors["debtAmount"]}
+                  </p>
+                )}
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm mb-1">Property Type</label>
-              <select
-                name="propertyType"
-                className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={handleChange}
-              >
-                <option value="single_family">Single Family</option>
-                <option value="condo">Condo</option>
-              </select>
-            </div>
-          </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm mb-1">Loan Type</label>
+                <select
+                  name="loanType"
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange}
+                >
+                  <option value="fixed">Fixed</option>
+                  <option value="adjustable">Adjustable</option>
+                </select>
+              </div>
 
-          {/* submit-data */}
-          <button
-            type="submit"
-            className="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300"
-          >
-            Calculate Rating
-          </button>
-        </form>
+              <div>
+                <label className="block text-sm mb-1">Property Type</label>
+                <select
+                  name="propertyType"
+                  className="w-full p-2 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange}
+                >
+                  <option value="single_family">Single Family</option>
+                  <option value="condo">Condo</option>
+                </select>
+              </div>
+            </div>
+
+            {/* submit-data */}
+            <button
+              type="submit"
+              className="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300"
+            >
+              Calculate Rating
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

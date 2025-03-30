@@ -6,5 +6,4 @@ export interface Mortgage {
   debtAmount: number;
   loanType: "fixed" | "adjustable";
   propertyType: "single_family" | "condo";
-  creditRating?: "AAA" | "BBB" | "C";
 }
