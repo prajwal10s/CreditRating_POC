@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.post("/api/mortgages/", response_model=schemas.MortgageResponse , status_code=status.HTTP_201_CREATED)
 def add_mortgage(mortgage: schemas.MortgageCreate, db: Session = Depends(get_db)):
-    created_mortgage = crud.calculate_rating(db, mortgage)
+    created_mortgage = crud.post_mortgage(db, mortgage)
     
     if not created_mortgage:
         raise HTTPException(status_code=400, detail="Failed to create mortgage record.")
